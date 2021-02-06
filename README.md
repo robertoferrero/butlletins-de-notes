@@ -24,4 +24,4 @@ si no s'especifica el nom del fitxer (per exemple quan no s'executa des de líni
 
 Per poder-se executar, es necessita tenir instal·lat Python3 a la màquina i el mòdul PyPDF2:
 
-pip3 install PyPDF2
+$ pip3 install PyPDF2
