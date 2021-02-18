@@ -42,7 +42,7 @@ def main(argv):
 
     inputpdf = None
     try:
-        inputpdf = PdfFileReader(open(INPUT_FILE, "rb"))
+        inputpdf = PdfFileReader(open(INPUT_FILE, 'rb'))
     except:
         print(f"Can't open file {INPUT_FILE}.")
         sys.exit()
@@ -61,7 +61,7 @@ def main(argv):
             oldname = name
             output = PdfFileWriter()
             pupils_counter += 1
-            outputStream = open(f"{FOLDER}/{pupils_counter}.{name}.pdf","wb")
+            outputStream = open(f"{FOLDER}/{pupils_counter}.{name}.pdf",'wb')
 
         output.addPage(inputpdf.getPage(page))
         output.write(outputStream)

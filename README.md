@@ -7,11 +7,8 @@ L'script necessita que hi sigui a la mateixa carpeta que el pdf amb els butlleti
 Exemple:
 
 1.Pere Abad García.pdf
-
 2.Marta Batllori López.pdf
-
 3.Gerard Pérez Martorell.pdf
-
 ...
 
  
