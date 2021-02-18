@@ -17,7 +17,7 @@ Si s'executa per línia de comandes, admet com a paràmetre el nom del fitxer am
 
     $ python3 creabutlletins.py fitxerambbutlletins.pdf
 
-si no s'especifica el nom del fitxer (per exemple quan no s'executa des de línia de comades) llavors assumeix que el nom del fitxer és butlletins.pdf.
+si no s'especifica el nom del fitxer (per exemple quan no s'executa des de línia de comades) llavors assumeix que el nom del fitxer és ***butlletins.pdf***.
 
 Per poder-se executar, es necessita tenir instal·lat Python3 a la màquina i el mòdul PyPDF2:
 
