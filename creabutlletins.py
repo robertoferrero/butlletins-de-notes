@@ -40,9 +40,9 @@ def main(argv):
     for file in input_files:
         folder = file.split('.')[0]
 
-        inputpdf = None
+        input_pdf = None
         try:
-            inputpdf = PdfFileReader(open(file, 'rb'))
+            input_pdf = PdfFileReader(open(file, 'rb'))
         except:
             print(f"Can't open file {file}.")
             sys.exit()
@@ -51,23 +51,23 @@ def main(argv):
             os.makedirs(folder)
 
         oldname = ""
-        outputstream = output = None
+        output_stream = output = None
         pupils_counter = 0
 
-        for page in range(inputpdf.getNumPages()):
-            tmpname = get_name(inputpdf,page)
+        for page in range(input_pdf.getNumPages()):
+            tmpname = get_name(input_pdf,page)
             name = tmpname if tmpname!="" else oldname
 
             if name != oldname:
-                if outputstream is not None:
-                    outputstream.close()
+                if output_stream is not None:
+                    output_stream.close()
                 oldname = name
                 output = PdfFileWriter()
                 pupils_counter += 1
-                outputstream = open(f"{folder}/{pupils_counter}.{name}.pdf",'wb')
+                output_stream = open(f"{folder}/{pupils_counter}.{name}.pdf",'wb')
 
-            output.addPage(inputpdf.getPage(page))
-            output.write(outputstream)
+            output.addPage(input_pdf.getPage(page))
+            output.write(output_stream)
 
 
 if __name__ == "__main__":
