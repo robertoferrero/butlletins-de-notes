@@ -3,7 +3,7 @@
 import os
 import sys
 from PyPDF2 import PdfFileWriter, PdfFileReader
-
+import re
 
 def get_name(inputpdf,page):
     content = inputpdf.getPage(page).extractText()
@@ -26,45 +26,49 @@ def get_name(inputpdf,page):
 
 def main(argv):
 
-    INPUT_FILE = ""
+    input_files = []
 
-    if len(argv)>1:
+    if len(argv) > 1:
         print ("Incorrect number of arguments.")
         sys.exit()
-    elif len(argv)==1:
-        INPUT_FILE = argv[0]
+    elif len(argv) == 1:
+        input_files.append(argv[0])
     else:
-        INPUT_FILE = "butlletins.pdf"
+        input_files = [ file for file in os.listdir('.') if re.search('.pdf',file)]
 
-    FOLDER = "butlletins"
-    if not os.path.exists(FOLDER):
-        os.makedirs(FOLDER)
 
-    inputpdf = None
-    try:
-        inputpdf = PdfFileReader(open(INPUT_FILE, 'rb'))
-    except:
-        print(f"Can't open file {INPUT_FILE}.")
-        sys.exit()
+    for file in input_files:
+        folder = file.split('.')[0]
 
-    oldname = ""
-    outputStream = output = None
-    pupils_counter = 0
+        inputpdf = None
+        try:
+            inputpdf = PdfFileReader(open(file, 'rb'))
+        except:
+            print(f"Can't open file {file}.")
+            sys.exit()
+        
+        if not os.path.exists(folder):
+            os.makedirs(folder)
 
-    for page in range(inputpdf.getNumPages()):
-        tmpname = get_name(inputpdf,page)
-        name = tmpname if tmpname!="" else oldname
+        oldname = ""
+        outputstream = output = None
+        pupils_counter = 0
 
-        if name != oldname:
-            if outputStream is not None:
-                outputStream.close()
-            oldname = name
-            output = PdfFileWriter()
-            pupils_counter += 1
-            outputStream = open(f"{FOLDER}/{pupils_counter}.{name}.pdf",'wb')
+        for page in range(inputpdf.getNumPages()):
+            tmpname = get_name(inputpdf,page)
+            name = tmpname if tmpname!="" else oldname
 
-        output.addPage(inputpdf.getPage(page))
-        output.write(outputStream)
+            if name != oldname:
+                if outputstream is not None:
+                    outputstream.close()
+                oldname = name
+                output = PdfFileWriter()
+                pupils_counter += 1
+                outputstream = open(f"{folder}/{pupils_counter}.{name}.pdf",'wb')
+
+            output.addPage(inputpdf.getPage(page))
+            output.write(outputstream)
+
 
 if __name__ == "__main__":
     main(sys.argv[1:])
