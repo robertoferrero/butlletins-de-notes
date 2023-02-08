@@ -2,11 +2,11 @@
 
 import os
 import sys
-from PyPDF2 import PdfFileWriter, PdfFileReader
+from PyPDF2 import PdfWriter, PdfReader
 import re
 
 def get_name(inputpdf,page):
-    content = inputpdf.getPage(page).extractText()
+    content = inputpdf.pages[page].extract_text()
 
     result = ""
     if content != "":
@@ -37,14 +37,16 @@ def main(argv):
         input_files = [ file for file in os.listdir('.') if re.search('.pdf',file)]
 
 
+    #print(f"Fitxers: {input_files}")
     for file in input_files:
         folder = file.split('.')[0]
 
         input_pdf = None
         try:
-            input_pdf = PdfFileReader(open(file, 'rb'))
-        except:
+            input_pdf = PdfReader(open(file, 'rb'))
+        except Exception as e:
             print(f"Can't open file {file}.")
+            print(f"{e}")
             sys.exit()
         
         if not os.path.exists(folder):
@@ -54,7 +56,7 @@ def main(argv):
         output_stream = output = None
         pupils_counter = 0
 
-        for page in range(input_pdf.getNumPages()):
+        for page in range(len(input_pdf.pages)):
             tmpname = get_name(input_pdf,page)
             name = tmpname if tmpname!="" else oldname
 
@@ -62,11 +64,11 @@ def main(argv):
                 if output_stream is not None:
                     output_stream.close()
                 oldname = name
-                output = PdfFileWriter()
+                output = PdfWriter()
                 pupils_counter += 1
-                output_stream = open(f"{folder}/{pupils_counter}.{name}.pdf",'wb')
+                output_stream = open(f"{folder}/{pupils_counter}-{name.strip()}.pdf",'wb')
 
-            output.addPage(input_pdf.getPage(page))
+            output.add_page(input_pdf.pages[page])
             output.write(output_stream)
 
 
