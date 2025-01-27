@@ -7,10 +7,8 @@ import re
 
 
 def get_name(inputpdf):
-    #content = inputpdf.pages[0].extract_text()
     reader = PdfReader(inputpdf)
-    page = reader.pages[0]
-    content = page.extract_text()
+    content = reader.pages[0].extract_text()
     
     result = ""
     if content != "":
@@ -52,8 +50,8 @@ def main(argv):
             print(f"{e}")
             sys.exit()
         
-        if not os.path.exists(folder):
-            os.makedirs(folder)
+        #if not os.path.exists(folder):
+        #    os.makedirs(folder)
 
         oldname = ""
         output_stream = output = None
@@ -62,22 +60,6 @@ def main(argv):
         print(f"Nom fitxer: {file}")
         print(get_name(file))
         os.rename(file,get_name(file)+".pdf")
-        
-        '''for page in range(len(input_pdf.pages)):
-            tmpname = get_name(input_pdf,page)
-            name = tmpname if tmpname!="" else oldname
-
-            if name != oldname:
-                if output_stream is not None:
-                    output_stream.close()
-                oldname = name
-                output = PdfWriter()
-                pupils_counter += 1
-                output_stream = open(f"{folder}/{pupils_counter}-{name.strip()}.pdf",'wb')
-
-            output.add_page(input_pdf.pages[page])
-            output.write(output_stream)
-        '''    
 
 
 if __name__ == "__main__":
