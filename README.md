@@ -1,4 +1,10 @@
 # Butlletins de notes
+***canviaNomsPdfsEsfera.py***
+
+Modica el nom dels fitxers del butlletins pdf d'Esfera que troba a la carpeta actual amb el nom de l'alumne que apareix al mateix butlletí.
+
+Si hi ha més d'un fitxer a la carpeta, canvia el nom de cada fitxer que troba.
+
 ***creabutlletinsSaga.py***
 
 Extreu els diferents fitxers individuals de notes per cada alumne a partir del fitxer PDF de notes generat per SAGA per a un grup.
