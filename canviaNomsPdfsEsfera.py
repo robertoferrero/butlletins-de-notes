@@ -12,15 +12,21 @@ def get_name(inputpdf):
     
     result = ""
     if content != "":
-        ininame = content.index("Nom i cognoms")+68
-        document_type = content[ininame-7:ininame-4]
-        endname = 100
-        for index,digit in enumerate(content[ininame:ininame+100]):
-            if digit.isnumeric():
-                endname = index if document_type=="DNI" else index-1
-                break
+        ininame = -1
+        try:
+            ininame = content.index("Nom i cognoms")
+        except:
+            pass
+        if ininame > 0:
+            ininame += 68
+            document_type = content[ininame-7:ininame-4]
+            endname = 100
+            for index,digit in enumerate(content[ininame:ininame+100]):
+                if digit.isnumeric():
+                    endname = index if document_type=="DNI" else index-1
+                    break
 
-        result = content[ininame:ininame+endname]
+            result = content[ininame:ininame+endname]
     
     return result
 
@@ -58,8 +64,9 @@ def main(argv):
         pupils_counter = 0
 
         print(f"Nom fitxer: {file}")
-        print(get_name(file))
-        os.rename(file,get_name(file)+".pdf")
+        #print(get_name(file))
+        if get_name(file) != "":
+            os.rename(file,get_name(file)+".pdf")
 
 
 if __name__ == "__main__":
